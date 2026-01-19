@@ -899,77 +899,6 @@ footer {
   transition: all 0.4s ease;
 }
 
-/* Birthday Countdown */
-.birthday-countdown {
-  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.95));
-  border-radius: 20px;
-  padding: 25px;
-  margin: 20px auto;
-  max-width: 550px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(12,43,75,0.15);
-  z-index: 20;
-  border: 3px solid rgba(46,139,192,0.4);
-  backdrop-filter: blur(5px);
-}
-.countdown-title {
-  color: #FF4081;
-  font-size: 24px;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 5px rgba(255,64,129,0.2);
-}
-.countdown-timer {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.countdown-item {
-  background: linear-gradient(135deg, #FF4081, #2e8bc0, #1a4a7a);
-  color: white;
-  padding: 15px;
-  border-radius: 15px;
-  min-width: 85px;
-  box-shadow: 0 10px 25px rgba(46,139,192,0.4);
-  transition: all 0.3s ease;
-}
-.countdown-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(46,139,192,0.5);
-}
-.countdown-number {
-  font-size: 36px;
-  font-weight: 900;
-  display: block;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-.countdown-label {
-  font-size: 14px;
-  opacity: 0.9;
-  letter-spacing: 1px;
-}
-
-/* NEW: Countdown Status Message */
-.countdown-status {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #FF4081;
-  text-shadow: 0 2px 5px rgba(255,64,129,0.2);
-  padding: 10px 15px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  min-height: 30px;
-}
-.countdown-status.waiting {
-  color: #ff9800;
-  background: rgba(255,152,0,0.1);
-}
-.countdown-status.ready {
-  color: #4caf50;
-  background: rgba(76,175,80,0.1);
-}
-
 /* Final Birthday Gift */
 .final-gift {
   background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(240,248,255,0.98));
@@ -1050,16 +979,6 @@ footer {
   }
   .birthday-card-container {
     width: 300px;
-  }
-  .countdown-timer {
-    gap: 10px;
-  }
-  .countdown-item {
-    min-width: 70px;
-    padding: 12px;
-  }
-  .countdown-number {
-    font-size: 28px;
   }
   .final-gift {
     padding: 20px;
@@ -1171,33 +1090,6 @@ And may the coming year be your most amazing one yet! 🎊
 🥳🎂 HAPPY BIRTHDAY & BEST WISHES! 🎂🥳
 </div>
 
-<!-- Birthday Countdown -->
-<div class="birthday-countdown">
-  <div class="countdown-title">⏳ BIRTHDAY COUNTDOWN TIMER 🎂</div>
-  <div class="countdown-timer">
-    <div class="countdown-item">
-      <span class="countdown-number" id="countdown-days">365</span>
-      <span class="countdown-label">DAYS</span>
-    </div>
-    <div class="countdown-item">
-      <span class="countdown-number" id="countdown-hours">24</span>
-      <span class="countdown-label">HOURS</span>
-    </div>
-    <div class="countdown-item">
-      <span class="countdown-number" id="countdown-minutes">60</span>
-      <span class="countdown-label">MINUTES</span>
-    </div>
-    <div class="countdown-item">
-      <span class="countdown-number" id="countdown-seconds">60</span>
-      <span class="countdown-label">SECONDS</span>
-    </div>
-  </div>
-  <!-- NEW: Countdown Status Display -->
-  <div class="countdown-status" id="countdownStatus">
-    ⏳ Waiting for countdown to finish... 🎂
-  </div>
-</div>
-
 <!-- ========== BIRTHDAY WHEEL INTEGRATED ========== -->
 <div class="wheel-container">
   <div class="pointer"></div>
@@ -1205,7 +1097,7 @@ And may the coming year be your most amazing one yet! 🎊
 </div>
 
 <div id="controls">
-  <button id="btn" disabled><i class="fas fa-lock"></i> ⏳ WAIT FOR COUNTDOWN 🎂</button>
+  <button id="btn"><i class="fas fa-redo-alt"></i> 🎂 SPIN THE WHEEL 🎂</button>
   <button id="resetBtn"><i class="fas fa-sync-alt"></i> 🔄 Reset Spins</button>
   <button id="muteBtn" title="Toggle Music">
     <span id="musicIcon">🎵</span>
@@ -1720,93 +1612,6 @@ function rateBirthday(rating) {
   localStorage.setItem('birthday_user_rating', rating.toString());
 }
 
-// Countdown timer to Next Birthday
-let countdownFinished = false;
-const countdownStatusEl = document.getElementById('countdownStatus');
-const spinButton = document.getElementById('btn');
-
-function updateBirthdayCountdown() {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  let birthday = new Date(currentYear, 0, 19); // January 19
-  
-  // If birthday has passed this year, set to next year
-  if (now > birthday) {
-    birthday = new Date(currentYear + 1, 0, 19);
-  }
-  
-  const diff = birthday - now;
-  
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-  
-  document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
-  document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
-  document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
-  document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
-  
-  // Check if countdown is finished
-  if (diff <= 0) {
-    countdownFinished = true;
-    enableSpinButton();
-  } else {
-    // Set a shorter countdown for testing (e.g., 30 seconds from now)
-    // Comment out for real birthday countdown
-    const testTime = 30 * 1000; // 30 seconds for testing
-    if (diff > testTime) {
-      countdownFinished = false;
-      disableSpinButton();
-    }
-  }
-  
-  // Update status message
-  updateCountdownStatus(diff);
-}
-
-function updateCountdownStatus(diff) {
-  if (countdownFinished) {
-    countdownStatusEl.textContent = '🎉 COUNTDOWN FINISHED! SPIN THE WHEEL! 🎂';
-    countdownStatusEl.className = 'countdown-status ready';
-  } else {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
-    if (days > 0) {
-      countdownStatusEl.textContent = `⏳ Waiting... ${days}d ${hours}h ${minutes}m left 🎂`;
-    } else if (hours > 0) {
-      countdownStatusEl.textContent = `⏳ Waiting... ${hours}h ${minutes}m left 🎂`;
-    } else if (minutes > 0) {
-      countdownStatusEl.textContent = `⏳ Waiting... ${minutes}m left 🎂`;
-    } else {
-      const seconds = Math.floor(diff / 1000);
-      countdownStatusEl.textContent = `⏳ Almost there... ${seconds}s left 🎂`;
-    }
-    countdownStatusEl.className = 'countdown-status waiting';
-  }
-}
-
-function enableSpinButton() {
-  const btn = document.getElementById('btn');
-  if (btn) {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-redo-alt"></i> 🎂 SPIN THE WHEEL 🎂';
-    btn.style.animation = 'pulseShake 3s infinite ease-in-out';
-    showToast('🎉 COUNTDOWN FINISHED! You can now spin the wheel! 🎂', 'success', 3000);
-  }
-}
-
-function disableSpinButton() {
-  const btn = document.getElementById('btn');
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-lock"></i> ⏳ WAIT FOR COUNTDOWN 🎂';
-    btn.style.animation = 'none';
-  }
-}
-
 // Lightbox for images
 function initLightbox() {
   document.querySelectorAll('#gallery img').forEach(img => {
@@ -1864,12 +1669,9 @@ function updateChancesUI(){
   if(chancesEl) chancesEl.textContent = MAX_SPINS - spinCount; 
   const b = document.getElementById('btn'); 
   if(b) {
-    b.disabled = spinCount >= MAX_SPINS || !countdownFinished;
+    b.disabled = spinCount >= MAX_SPINS;
     if (spinCount >= MAX_SPINS) {
       b.innerHTML = '<i class="fas fa-lock"></i> 🔒 NO SPINS LEFT 🔒';
-      b.style.animation = 'none';
-    } else if (!countdownFinished) {
-      b.innerHTML = '<i class="fas fa-lock"></i> ⏳ WAIT FOR COUNTDOWN 🎂';
       b.style.animation = 'none';
     } else {
       b.innerHTML = '<i class="fas fa-redo-alt"></i> 🎂 SPIN THE WHEEL 🎂';
@@ -1894,11 +1696,6 @@ function createConfettiEffect() {
 
 // ========== SPIN FUNCTION ==========
 function spinWheel() {
-  if (!countdownFinished) {
-    showToast('⏳ Countdown not finished yet! Please wait... 🎂', 'error', 2000);
-    return;
-  }
-  
   if (spinCount >= MAX_SPINS) {
     alert('❌ No spins left');
     return;
@@ -1960,21 +1757,6 @@ onReady(()=> {
   createConfettiEffect();
   initLightbox();
   initVideoPlayers(); // Initialize video players with play buttons
-  
-  // Initialize with disabled spin button
-  disableSpinButton();
-  
-  // Start countdown
-  updateBirthdayCountdown();
-  const countdownInterval = setInterval(updateBirthdayCountdown, 1000);
-  
-  // For testing: Enable spin button after 30 seconds
-  // Remove this in production
-  setTimeout(() => {
-    countdownFinished = true;
-    enableSpinButton();
-    showToast('🎉 TEST MODE: Countdown finished! You can now spin! 🎂', 'success', 3000);
-  }, 30000); // 30 seconds for testing
   
   setInterval(createFloatingBalloons, 30000);
   
@@ -2095,10 +1877,6 @@ onReady(()=> {
   });
   
   btn.addEventListener('click', ()=>{
-    if (!countdownFinished) {
-      showToast('⏳ Countdown not finished yet! Please wait... 🎂', 'error', 2000);
-      return;
-    }
     if(window.__bgMusic && !isMuted) window.__bgMusic.play().catch(()=>{});
     spinWheel();
   });
